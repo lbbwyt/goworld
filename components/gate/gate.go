@@ -44,7 +44,7 @@ var (
 
 func parseArgs() {
 	var gateIdArg int
-	flag.IntVar(&gateIdArg, "gid", 0, "set gateid")
+	flag.IntVar(&gateIdArg, "gid", 1, "set gateid")
 	flag.StringVar(&args.configFile, "configfile", "", "set config file path")
 	flag.StringVar(&args.logLevel, "log", "", "set log level, will override log level in config")
 	flag.BoolVar(&args.runInDaemonMode, "d", false, "run in daemon mode")

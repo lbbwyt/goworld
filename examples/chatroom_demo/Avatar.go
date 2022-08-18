@@ -44,6 +44,8 @@ var spaceSep = regexp.MustCompile("\\s")
 // SendChat_Client 是用来发送聊天信息的客户端RPC
 func (a *Avatar) SendChat_Client(text string) {
 	text = strings.TrimSpace(text)
+
+	gwlog.Infof("send msg : %s ", text)
 	if text[0] == '/' {
 		// this is a command
 		cmd := spaceSep.Split(text[1:], -1)

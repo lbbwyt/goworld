@@ -131,6 +131,10 @@ func assureStorageEngineReady() (err error) {
 	cfg := config.GetStorage()
 	if cfg.Type == "mongodb" {
 		storageEngine, err = entitystoragemongodb.OpenMongoDB(cfg.Url, cfg.DB)
+		if err != nil {
+			gwlog.Fatalf("connect mongodb error: %s", err.Error())
+			return err
+		}
 	} else {
 		gwlog.Panicf("unknown storage type: %s", cfg.Type)
 	}

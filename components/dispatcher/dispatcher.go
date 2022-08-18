@@ -30,7 +30,7 @@ var (
 )
 
 func parseArgs() {
-	flag.IntVar(&dispidArg, "dispid", 0, "set dispatcher ID")
+	flag.IntVar(&dispidArg, "dispid", 1, "set dispatcher ID")
 	flag.StringVar(&configFile, "configfile", "", "set config file path")
 	flag.StringVar(&logLevel, "log", "", "set log level, will override log level in config")
 	flag.BoolVar(&runInDaemonMode, "d", false, "run in daemon mode")

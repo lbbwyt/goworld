@@ -53,7 +53,7 @@ type Entity struct {
 	InterestedIn         EntitySet
 	InterestedBy         EntitySet
 	aoi                  aoi.AOI
-	yaw                  Yaw
+	yaw                  Yaw //航向，将物体绕Y轴旋转（localRotationY）. 及实体在场景中摆放的角度，
 	rawTimers            map[*timer.Timer]struct{}
 	timers               map[EntityTimerID]*entityTimerInfo
 	lastTimerId          EntityTimerID
@@ -1137,7 +1137,6 @@ func (e *Entity) SetClientFilterProp(key string, val string) {
 	if key == "" {
 		gwlog.Panicf("%s SetClientFilterProp: key must not be empty", e)
 	}
-
 	// send filter property to Client
 	e.client.sendSetClientFilterProp(key, val)
 }

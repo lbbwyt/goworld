@@ -25,6 +25,9 @@ import (
 	"github.com/xiaonanln/goworld/engine/proto"
 )
 
+/**
+实体分发信息， 即实体对应的game logic server 信息
+*/
 type entityDispatchInfo struct {
 	gameid             uint16
 	blockUntilTime     time.Time
@@ -172,7 +175,7 @@ type DispatcherService struct {
 	bootGames             []uint16
 	gates                 map[uint16]*dispatcherClientProxy
 	messageQueue          chan *pktconn.Packet
-	entityDispatchInfos   map[common.EntityID]*entityDispatchInfo
+	entityDispatchInfos   map[common.EntityID]*entityDispatchInfo //
 	kvregRegisterMap      map[string]string
 	entitySyncInfosToGame map[uint16]*netutil.Packet // cache entity sync infos to gates
 	ticker                <-chan time.Time
@@ -215,11 +218,11 @@ func (service *DispatcherService) messageLoop() {
 				service.handleDoSomethingOnSpecifiedClient(dcp, pkt)
 			} else {
 				switch msgtype {
-				case proto.MT_SYNC_POSITION_YAW_FROM_CLIENT:
+				case proto.MT_SYNC_POSITION_YAW_FROM_CLIENT: //从客户端同步位移信息
 					service.handleSyncPositionYawFromClient(dcp, pkt)
-				case proto.MT_SYNC_POSITION_YAW_ON_CLIENTS:
+				case proto.MT_SYNC_POSITION_YAW_ON_CLIENTS: //将位移同步消息发送到客户端
 					service.handleSyncPositionYawOnClients(dcp, pkt)
-				case proto.MT_CALL_ENTITY_METHOD:
+				case proto.MT_CALL_ENTITY_METHOD: //调用实体方法， Packet将append到pendingPacketQueue队列中
 					service.handleCallEntityMethod(dcp, pkt)
 				case proto.MT_CALL_ENTITY_METHOD_FROM_CLIENT:
 					service.handleCallEntityMethodFromClient(dcp, pkt)
@@ -932,7 +935,7 @@ func (service *DispatcherService) handleGameLBCInfo(dcp *dispatcherClientProxy, 
 	// handle game LBC info from game
 	var lbcinfo proto.GameLBCInfo
 	packet.ReadData(&lbcinfo)
-	gwlog.Debugf("Game %d Load Balancing Info: %+v", dcp.gameid, lbcinfo)
+	//gwlog.Debugf("Game %d Load Balancing Info: %+v", dcp.gameid, lbcinfo)
 	lbcinfo.CPUPercent *= 1 + (rand.Float64() * 0.1) // multiply CPUPercent by a random factor 1.0 ~ 1.1
 	gdi := service.games[dcp.gameid]
 	gdi.lbcheapentry.update(lbcinfo)
